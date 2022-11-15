@@ -1,6 +1,6 @@
 # PHP binding for libvips 
 
-[![Build Status](https://travis-ci.org/libvips/php-vips.svg?branch=master)](https://travis-ci.org/libvips/php-vips)
+[![CI](https://github.com/libvips/php-vips/workflows/CI/badge.svg)](https://github.com/libvips/php-vips/actions)
 
 `php-vips` is a binding for [libvips](https://github.com/libvips/libvips) 8.7
 and later that runs on PHP 7.4 and later.
@@ -48,7 +48,7 @@ to your `composer.json`:
 
 php-vips does not yet support preloading, so you need to enable FFI globally.
 This has some security implications, since anyone who can run php on your
-server can use it to make calls off into any native library they can find.
+server can use it to call any native library they have access to.
 
 Of course if attackers are running their own PHP code on your webserver you
 are probably already toast, unfortunately.

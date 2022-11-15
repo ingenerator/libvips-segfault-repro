@@ -20,12 +20,12 @@
             'dev_requirement' => false,
         ),
         'jcupitt/vips' => array(
-            'pretty_version' => 'v2.1.0',
-            'version' => '2.1.0.0',
-            'reference' => 'c46db5539768b132a58f18c88790541b5ebbe440',
+            'pretty_version' => 'v2.1.1',
+            'version' => '2.1.1.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../jcupitt/vips',
             'aliases' => array(),
+            'reference' => 'ff7cb36fde54887ca61647b3ff76598caa69bd25',
             'dev_requirement' => false,
         ),
         'psr/log' => array(

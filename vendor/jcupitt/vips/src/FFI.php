@@ -201,6 +201,13 @@ class FFI
             return;
         }
 
+        // try experimentally binding a bit of stdio ... if this fails, FFI
+        // has probably not been installed or enabled, and php will throw a
+        // useful error message
+        $stdio = \FFI::cdef(<<<EOS
+            int printf(const char *, ...);
+        EOS);
+
         $vips_libname = self::libraryName("libvips", 42);
         if (PHP_OS_FAMILY === "Windows") {
             $glib_libname = self::libraryName("libglib-2.0", 0);
@@ -252,7 +259,7 @@ class FFI
         if ($vips === null) {
             array_shift($libraryPaths);
 
-            $msg = "Unable to find library '$vips_libname'";
+            $msg = "Unable to open library '$vips_libname'";
             if (!empty($libraryPaths)) {
                 $msg .= " in any of ['" . implode("', '", $libraryPaths) . "']";
             }
@@ -436,7 +443,6 @@ int vips_init (const char *argv0);
 int vips_shutdown (void);
 
 const char *vips_error_buffer (void);
-char *vips_error_buffer_copy (void);
 void vips_error_clear (void);
 void vips_error_freeze (void);
 void vips_error_thaw (void);
@@ -541,8 +547,8 @@ typedef struct _VipsArgumentClass {
     unsigned int offset;
 } VipsArgumentClass;
 
-int vips_object_get_argument (VipsObject* object,
-    const char *name, GParamSpec** pspec,
+int vips_object_get_argument (VipsObject* object, const char *name, 
+    GParamSpec** pspec,
     VipsArgumentClass** argument_class,
     VipsArgumentInstance** argument_instance);
 
