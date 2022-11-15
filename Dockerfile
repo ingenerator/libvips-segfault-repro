@@ -14,6 +14,7 @@ RUN export MAKEFLAGS="-j $(nproc)" \
     libexif-dev \
     libexpat1-dev \
     libffi-dev \
+    libjemalloc2 \
     libpoppler-glib-dev \
     libfreetype6-dev \
     liblcms2-dev \
@@ -36,6 +37,8 @@ RUN export MAKEFLAGS="-j $(nproc)" \
     opcache \
     zip \
  && echo 'ffi.enable=1' >> /usr/local/etc/php/conf.d/docker-php-ext-ffi.ini
+
+ENV LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libjemalloc.so.2
 
 WORKDIR /var/www
 COPY ./ .
