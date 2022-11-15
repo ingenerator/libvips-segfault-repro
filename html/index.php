@@ -1,11 +1,23 @@
 <?php
 
+use Jcupitt\Vips\Config;
 use Jcupitt\Vips\FFI;
 use Jcupitt\Vips\Image;
 use Jcupitt\Vips\Interpretation;
 use Jcupitt\Vips\Utils;
 
 require_once(__DIR__.'/../vendor/autoload.php');
+
+if (($_GET['cache'] ?? 'default') === 'off') {
+    Utils::debugLog('Set cache=0', []);
+    Config::cacheSetMax(0);
+    Config::cacheSetMaxMem(0);
+}
+
+if ($_GET['concurrency'] ?? 'default' === 'off') {
+    Utils::debugLog('Set concurrency=1', []);
+    Config::concurrencySet(1);
+}
 
 Utils::debugLog('Begin thumbnail', []);
 

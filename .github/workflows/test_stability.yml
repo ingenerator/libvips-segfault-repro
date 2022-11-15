@@ -10,7 +10,12 @@ jobs:
       matrix:
         shutdown_behaviour:
           - 'no_shutdown'
-          - 'vips_shutdown'
+        vips_cache:
+          - 'default'
+          - 'off'
+        vips_concurrency:
+          - 'default'
+          - 'off'
 
     steps:
       - name: Checkout
@@ -23,6 +28,8 @@ jobs:
         run:  ./run_reproduction_case.sh
         env:
           VIPS_SHUTDOWN_BEHAVIOUR: ${{ matrix.shutdown_behaviour }}
+          VIPS_CACHE: ${{ matrix.vips_cache }}
+          VIPS_CONCURRENCY: ${{ matrix.vips_concurrency }}
 
       - name: Check memory usage
         if:   always()

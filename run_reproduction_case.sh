@@ -8,7 +8,12 @@ failure_count=0
 test_iterations="${TEST_ITERATIONS:-20}"
 
 shutdown_behaviour="${VIPS_SHUTDOWN_BEHAVIOUR:-vips_shutdown}"
-echo "Running tests with shutdown: $shutdown_behaviour"
+cache="${VIPS_CACHE:-default}"
+concurrency="${VIPS_CONCURRENCY:-default}"
+echo "Running tests with:"
+echo " - shutdown: $shutdown_behaviour"
+echo " - cache: $cache"
+echo " - concurrency: $concurrency"
 
 echo "Starting container"
 docker run --name=vips-test \
@@ -25,7 +30,7 @@ echo "Proceeding to run tests"
 echo ""
 
 for (( i=1; $i <= $test_iterations; i++ )) ; do
-  http_status=$(curl --write-out '%{http_code}' --silent --output /dev/null "http://127.0.0.1:8080/test.php?shutdown_behaviour=$shutdown_behaviour" || true)
+  http_status=$(curl --write-out '%{http_code}' --silent --output /dev/null "http://127.0.0.1:8080/test.php?shutdown_behaviour=$shutdown_behaviour&cache=$cache&concurrency=$concurrency" || true)
   container_memory=$(docker stats --no-stream --format '{{.MemUsage}}' 'vips-test')
   result_line="#$(printf '% 2d' "$i") HTTP:$http_status Memory: $container_memory"
 
