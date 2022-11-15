@@ -5,7 +5,7 @@ set -o nounset
 NEWLINE=$'\n'
 result_summary=''
 failure_count=0
-test_iterations="${TEST_ITERATIONS:-10}"
+test_iterations="${TEST_ITERATIONS:-20}"
 
 shutdown_behaviour="${VIPS_SHUTDOWN_BEHAVIOUR:-vips_shutdown}"
 echo "Running tests with shutdown: $shutdown_behaviour"
