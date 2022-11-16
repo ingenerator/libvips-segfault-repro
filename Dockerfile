@@ -30,7 +30,7 @@ RUN export MAKEFLAGS="-j $(nproc)" \
  && tar xf jemalloc-${JEMALLOC_VERSION}.tar.bz2 && cd jemalloc-${JEMALLOC_VERSION} \
  && ./configure --disable-fill --disable-stats \
  && make && make install_lib_shared \
- && cd .. && rm -R jemalloc-${JEMALLOC_VERSION} && rm jemalloc-${JEMALLOC_VERSION}.tar.gz \
+ && cd .. && rm -R jemalloc-${JEMALLOC_VERSION} && rm jemalloc-${JEMALLOC_VERSION}.tar.bz2 \
  && curl -sLO https://github.com/libvips/libvips/releases/download/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz \
  && tar xf vips-${VIPS_VERSION}.tar.gz && cd vips-${VIPS_VERSION} \
  && meson build --prefix /usr/local --libdir lib \
@@ -43,7 +43,7 @@ RUN export MAKEFLAGS="-j $(nproc)" \
     zip \
  && echo 'ffi.enable=1' >> /usr/local/etc/php/conf.d/docker-php-ext-ffi.ini
 
-ENV LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libjemalloc.so.2
+ENV LD_PRELOAD=/usr/local/lib/libjemalloc.so.2
 ENV MALLOC_CONF="dirty_decay_ms:500"
 WORKDIR /var/www
 COPY ./ .
