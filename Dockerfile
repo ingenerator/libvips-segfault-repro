@@ -39,6 +39,6 @@ RUN export MAKEFLAGS="-j $(nproc)" \
  && echo 'ffi.enable=1' >> /usr/local/etc/php/conf.d/docker-php-ext-ffi.ini
 
 ENV LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libjemalloc.so.2
-
+ENV MALLOC_CONF="dirty_decay_ms:500"
 WORKDIR /var/www
 COPY ./ .
