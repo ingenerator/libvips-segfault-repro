@@ -1,6 +1,7 @@
 FROM php:8.1-apache-bullseye
 
 ENV DEBIAN_FRONTEND noninteractive
+ENV JEMALLOC_VERSION=5.3.0
 ENV VIPS_VERSION=8.13.3
 WORKDIR /usr/local/src
 
@@ -14,7 +15,6 @@ RUN export MAKEFLAGS="-j $(nproc)" \
     libexif-dev \
     libexpat1-dev \
     libffi-dev \
-    libjemalloc2 \
     libpoppler-glib-dev \
     libfreetype6-dev \
     liblcms2-dev \
@@ -26,6 +26,11 @@ RUN export MAKEFLAGS="-j $(nproc)" \
     libzip-dev \
     unzip \
     zip \
+ && curl -sLO https://github.com/jemalloc/jemalloc/releases/download/${JEMALLOC_VERSION}/jemalloc-${JEMALLOC_VERSION}.tar.bz2 \
+ && tar xf jemalloc-${JEMALLOC_VERSION}.tar.bz2 && cd jemalloc-${JEMALLOC_VERSION} \
+ && ./configure --disable-fill --disable-stats \
+ && make && make install_lib_shared \
+ && cd .. && rm -R jemalloc-${JEMALLOC_VERSION} && rm jemalloc-${JEMALLOC_VERSION}.tar.gz \
  && curl -sLO https://github.com/libvips/libvips/releases/download/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz \
  && tar xf vips-${VIPS_VERSION}.tar.gz && cd vips-${VIPS_VERSION} \
  && meson build --prefix /usr/local --libdir lib \
